@@ -50,7 +50,8 @@ public class MyIME extends InputMethodService implements
 
 	@Override
 	public void onInitializeInterface() {
-
+		sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+		MyConfig.setDoubleTapFun(sharedPref.getBoolean("double_tap", false));
 		enKeyboard = new MyKeyboard(this, R.xml.en_qwerty);
 		symKeyboard = new MyKeyboard(this, R.xml.en_symbol);
 		sym_shifted_Keyboard = new MyKeyboard(this, R.xml.en_shift_symbol);
@@ -59,13 +60,13 @@ public class MyIME extends InputMethodService implements
 		symbol = false;
 		currentKeyboard = enKeyboard;
 		currentKeyboard = getKeyboard(getLocaleId());
-
+		
 	}
 
 	@Override
 	public View onCreateInputView() {
 		// TODO Auto-generated method stub
-		sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+		
 		// get setting
 		MyConfig.setSoundOn(sharedPref.getBoolean("play_sound", false));
 		MyConfig.setPrimeBookOn(sharedPref.getBoolean(
@@ -73,6 +74,7 @@ public class MyIME extends InputMethodService implements
 		MyConfig.setCurrentTheme(Integer.valueOf(sharedPref.getString(
 				"choose_theme", "1")));
 		MyConfig.setShowHintLabel(sharedPref.getBoolean("hint_keylabel", true));
+		MyConfig.setDoubleTapFun(sharedPref.getBoolean("double_tap", false));
 		switch (MyConfig.getCurrentTheme()) {
 		case 5:
 			kv = (MyKeyboardView) getLayoutInflater().inflate(
@@ -126,9 +128,12 @@ public class MyIME extends InputMethodService implements
 		switch (subTypeId) {
 		case 1:
 			return enKeyboard;
-
-		case 2:
-			return new BamarKeyboard(this, R.xml.my_qwerty);
+		case 2: {
+			if (MyConfig.isDoubleTapFun())
+				return new BamarKeyboard(this, R.xml.my_2tap_qwerty);
+			else
+				return new BamarKeyboard(this, R.xml.my_qwerty);
+		}
 		case 3:
 			return new ShanKeyboard(this, R.xml.shn_qwerty);
 		case 4:
@@ -269,7 +274,11 @@ public class MyIME extends InputMethodService implements
 				Log.d("onKey", "Prime Book on");
 				switch (getLocaleId()) {
 				case 2:
-					((BamarKeyboard) currentKeyboard).handleMyanmarDelete(ic);
+					if (!MyConfig.isDoubleTapFun())
+						((BamarKeyboard) currentKeyboard)
+								.handleMyanmarDelete(ic);
+					else
+						deleteHandle(ic);
 					break;
 				case 3:
 					((ShanKeyboard) currentKeyboard).handleShanDelete(ic);
@@ -331,14 +340,13 @@ public class MyIME extends InputMethodService implements
 
 			switch (getLocaleId()) {
 			case 2:
-				cText = ((BamarKeyboard) currentKeyboard)
-						.handelMyanmarInputText(primaryCode, ic);
-				Log.d("onKey", "MyanmarHandle");
+				if (!MyConfig.isDoubleTapFun())
+					cText = ((BamarKeyboard) currentKeyboard)
+							.handelMyanmarInputText(primaryCode, ic);
 				break;
 			case 3:
 				cText = ((ShanKeyboard) currentKeyboard).handleShanInputText(
 						primaryCode, ic);
-				Log.d("onKey", "ShanHandle");
 				break;
 			case 4:
 				cText = ((MonKeyboard) currentKeyboard).handleMonInput(
@@ -373,7 +381,7 @@ public class MyIME extends InputMethodService implements
 
 	public static boolean isEndofText(InputConnection ic) {
 		CharSequence charAfterCursor = ic.getTextAfterCursor(1, 0);
-		if(charAfterCursor==null)
+		if (charAfterCursor == null)
 			return true;
 		if (charAfterCursor.length() > 0)
 			return false;

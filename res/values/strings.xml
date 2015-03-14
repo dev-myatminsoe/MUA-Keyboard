@@ -12,8 +12,8 @@
     <string name="label_subtype_en_GB">English</string>
     <string name="word_separators">\u0020\u200B.,;:!?\n()[]*&amp;@{}/&lt;&gt;_+=|&quot;၊။</string>
     <string name="shan_consonants">ၵၶငၸသၺတထၼပၽၾမယရလဝႁဢ</string>
-    <string name="title_activity_imesetting">ဗေ ကီးဘုတ်</string>
-    <string name="settings_name">ဗေ ကီးဘုတ်</string>
+    <string name="title_activity_imesetting">ဗေ ကီးဘုတ် Beta</string>
+    <string name="settings_name">ဗေ ကီးဘုတ် Beta</string>
     <string name="language_selection_title">Input languages</string>
     <string name="select_language">Select input languages</string>
     <string name="prime_book_typeing_on_off_title">သင်ပုန်းကြီး စာရိုက်စနစ်</string>
@@ -36,7 +36,8 @@
     <string name="play_sound_summ">Enable/Disable sound when typing</string>
     <string name="hint_keylabel_title">Hint Key Label</string>
     <string name="hint_keylabel_summ">Show/Hide Double Tap and Pop up hint key label</string>
-    
+    <string name="double_tap_title">Double Tap for Burmese Beta</string>
+    <string name="double_tap_summ">Enable Double tap testing for Burmese. Beta purpose!</string>
     
 
 </resources>
