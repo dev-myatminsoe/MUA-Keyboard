@@ -8,6 +8,8 @@
         <item>Flat (Green)</item>
         <item>Blue Gray Normal</item>
         <item>Golden Yellow</item>
+        <item>Material Light</item>
+        <item>Material Dark</item>
     </string-array>
     <string-array name="themeValueArray">
         <item>1</item>
@@ -15,6 +17,8 @@
         <item>3</item>
         <item>4</item>
         <item>5</item>
+        <item>6</item>
+        <item>7</item>
     </string-array>
     <!-- From: file:/Users/myatminsoe/AndroidStudioProjects/MUA-Keyboard-master/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/res/values/values.xml -->
     <eat-comment/>
